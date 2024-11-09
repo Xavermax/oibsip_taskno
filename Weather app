@@ -1,0 +1,23 @@
+import requests
+
+def get_weather(api_key, location):
+    base_url = "http://api.openweathermap.org/data/2.5/weather"
+    params = {
+        'q': location,
+        'appid': api_key,
+        'units': 'metric'  # Use 'imperial' for Fahrenheit
+    }
+    response = requests.get(base_url, params=params)
+    if response.status_code == 200:
+        data = response.json()
+        print(f"Weather in {data['name']}, {data['sys']['country']}:")
+        print(f"Temperature: {data['main']['temp']}°C")
+        print(f"Humidity: {data['main']['humidity']}%")
+        print(f"Condition: {data['weather'][0]['description'].capitalize()}")
+    else:
+        print("Error fetching weather data. Please check the location and try again.")
+
+if __name__ == "__main__":
+    api_key = "1c9c0381a746cc9ebdf9ba747c4a9e96"
+    location = input("Enter city name or ZIP code: ")
+    get_weather(api_key, location)
